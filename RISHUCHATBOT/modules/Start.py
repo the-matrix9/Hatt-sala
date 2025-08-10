@@ -335,8 +335,7 @@ async def start(_, m: Message):
 ┣─➤ 𝐒𝐓𝐀𝐑𝐓𝐈𝐍𝐆 🥰
 ┃
 ╰━━━━━━━ • ◆ • ━━━━━━━➤**""")
-        await accha.delete()
-        umm = await m.reply_sticker(sticker=random.choice(STICKER))
+        
 
         await accha.edit("**__ꨄ︎ ѕ__**")
         await asyncio.sleep(0.01)
