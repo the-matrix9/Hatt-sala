@@ -68,7 +68,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     # Go back to the main menu
     elif query.data == "BACK":
-    me = await RISHUCHATBOT.get_me()
+        me = await RISHUCHATBOT.get_me()
     await query.message.edit(
         text=START.format(me.mention, users, chats, UP),
         reply_markup=InlineKeyboardMarkup(DEV_OP),
