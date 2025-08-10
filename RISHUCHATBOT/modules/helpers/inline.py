@@ -85,7 +85,7 @@ HELP_BTN = [
         InlineKeyboardButton(text="❍ 𝐓ᴏᴏʟ𝐬 ❍", callback_data="TOOLS_DATA"),
     ],
     [
-        InlineKeyboardButton(text="❍ 𝐂ʜᴀᴛʙᴏᴛ ❍", callback_data=""),
+        InlineKeyboardButton(text="❍ 𝐂ʟσηє ❍", callback_data=""),
         InlineKeyboardButton(text="❍ 𝐓ᴏᴏʟ𝐬 ❍", callback_data=""),
     ],
     [
