@@ -110,3 +110,15 @@ ABOUT_READ = f"""
     ᴧʙσυᴛ ϻʏ ϻσᴅυʟєs ᴧηᴅ ᴄσϻϻᴧηᴅs...!
 ───────────────────────**
 """
+
+
+
+RGAM = f"""** Play Game 
+
+
+/dice - Dice 🎲
+/dart - Dart 🎯
+/basket - Basket Ball 🏀
+/ball - Bowling Ball 🎳
+/football - Football ⚽
+/jackpot - Spin slot machine 🎰**"""
