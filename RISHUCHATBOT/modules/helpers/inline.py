@@ -148,13 +148,8 @@ HELP_BUTN = [
 ABOUT_BTN = [
     [
         InlineKeyboardButton(text="❍ 𝐒ᴜᴘᴘᴏʀᴛ ❍", url=f"https://t.me/{SUPPORT_GRP}"),
-        InlineKeyboardButton(text="❍ 𝐇ᴇʟᴘ ❍", callback_data="HELP"),
-    ],
+        InlineKeyboardButton(text="❍ 𝐔ᴘᴅᴀᴛᴇ ❍", url=f"https://t.me/{UPDATE_CHNL}")],
     [
-        InlineKeyboardButton(text="❍ 𝐎ᴡɴᴇʀ ❍", user_id=OWNER),
-    ],
-    [
-        InlineKeyboardButton(text="❍ 𝐔ᴘᴅᴀᴛᴇ ❍", url=f"https://t.me/{UPDATE_CHNL}"),
-        InlineKeyboardButton(text="❍ 𝐁ᴀᴄᴋ ❍", callback_data="BACK"),
+    InlineKeyboardButton(text="❍ 𝐁ᴀᴄᴋ ❍", callback_data="BACK"),
     ],
 ]
