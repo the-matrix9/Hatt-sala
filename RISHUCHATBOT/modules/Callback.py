@@ -97,6 +97,14 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=InlineKeyboardMarkup(S_BACK),
         )
 
+
+    elif query.data == "MAIHUDON":
+        await query.message.edit(
+            text=RGAM,
+            reply_markup=InlineKeyboardMarkup(S_BACK),
+        )
+
+
     # Show tools information
     elif query.data == "TOOLS_DATA":
         await query.message.edit(
