@@ -22,21 +22,19 @@ START_BOT = [
 
 
 DEV_OP = [
-    [
-        InlineKeyboardButton(text="❍ 𝐎ᴡɴᴇʀ ❍", user_id=OWNER),
-        InlineKeyboardButton(text="❍ 𝐒ᴜᴘᴘᴏʀᴛ ❍", url=f"https://t.me/{SUPPORT_GRP}"),
-    ],
+    
     [
         InlineKeyboardButton(
             text="❍ 𝐀ᴅᴅ 𝐌ᴇ 𝐘ᴏᴜʀ 𝐆ʀᴏᴜᴘ ❍",
             url=f"https://t.me/{RISHUCHATBOT.username}?startgroup=true",
         ),
     ],
-    [
-        InlineKeyboardButton(text="❍ 𝐇ᴇʟᴘ ❍", callback_data="HELP"),
+[
+        InlineKeyboardButton(text="❍ 𝐎ᴡɴᴇʀ ❍", user_id=OWNER),
+        InlineKeyboardButton(text="❍ 𝐀ʙᴏᴜᴛ ❍", callback_data="ABOUT"),
     ],
     [
-        InlineKeyboardButton(text="❍ 𝐀ʙᴏᴜᴛ ❍", callback_data="ABOUT"),
+        InlineKeyboardButton(text="❍ 𝐇ᴇʟᴘ 𝐂ᴏᴍᴍᴀɴᴅ ❍", callback_data="HELP"),
     ],
 ]
 
