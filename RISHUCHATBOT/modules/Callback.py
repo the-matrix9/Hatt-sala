@@ -66,13 +66,16 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.message.delete()
         await query.answer("Closed menu!", show_alert=True)
 
-    # Go back to the main menu
-    elif query.data == "BACK":
-        me = await RISHUCHATBOT.get_me()
-    await query.message.edit(
-        text=START.format(me.mention, users, chats, UP),
-        reply_markup=InlineKeyboardMarkup(DEV_OP),
+# Go back to the main menu  
+    elif query.data == "BACK":  
+    await query.message.edit(  
+        text=START,  
+     reply_markup=InlineKeyboardMarkup(DEV_OP),  
     )
+
+
+
+
 
     # Show source information
     elif query.data == "SOURCE":
