@@ -86,7 +86,7 @@ HELP_BTN = [
     ],
     [
         InlineKeyboardButton(text="❍ 𝐂ʟσηє ❍", callback_data="ADMINS"),
-        InlineKeyboardButton(text="❍ 𝐀ʟʟ ❍", callback_data="MAIHUDON"),
+        InlineKeyboardButton(text="❍ 𝐒ᴘᴇᴄɪᴀʟ ❍", callback_data="MAIHUDON"),
     ],
     [
         InlineKeyboardButton(text="❍ 𝐁ᴀᴄᴋ ❍", callback_data="BACK"),
