@@ -97,14 +97,14 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "ADMINS":
         await query.message.edit(
             text=ADMIN_READ,
-            reply_markup=InlineKeyboardMarkup(S_BACK),
+            reply_markup=InlineKeyboardMarkup(CHATBOT_BACK),
         )
 
 
     elif query.data == "MAIHUDON":
         await query.message.edit(
             text=RGAM,
-            reply_markup=InlineKeyboardMarkup(S_BACK),
+            reply_markup=InlineKeyboardMarkup(CHATBOT_BACK),
         )
 
 
