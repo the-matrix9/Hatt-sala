@@ -93,7 +93,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "ADMINS":
         await query.message.edit(
             text=ADMIN_READ,
-            reply_markup=InlineKeyboardMarkup(MUSIC_BACK_BTN),
+            reply_markup=InlineKeyboardMarkup(S_BACK),
         )
 
     # Show tools information
