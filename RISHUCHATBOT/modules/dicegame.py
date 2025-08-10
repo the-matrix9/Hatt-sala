@@ -1,7 +1,7 @@
 from pyrogram import Client, enums, filters
 #from config import *
 import asyncio
-from RISHUCHATBOT import app as app
+from RISHUCHATBOT import app 
 
 from pyrogram.handlers import MessageHandler
 
