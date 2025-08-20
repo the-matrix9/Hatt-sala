@@ -113,12 +113,11 @@ ABOUT_READ = f"""
 
 
 
-RGAM = f"""** Play Game 
+RGAM = f"""** ᴘʟᴀʏ ɢᴀᴍᴇ 
 
-
-/dice - Dice 🎲
-/dart - Dart 🎯
-/basket - Basket Ball 🏀
-/ball - Bowling Ball 🎳
-/football - Football ⚽
-/jackpot - Spin slot machine 🎰**"""
+/dice - ᴅɪᴄᴇ 
+/dart - ᴅᴀʀᴛ 
+/basket - ʙᴀsᴋᴇᴛ ʙᴀʟʟ 
+/ball - ʙᴏᴡʟɪɴɢ ʙᴀʟʟ 
+/football - ғᴏᴏᴛʙᴀʟʟ 
+/jackpot - sᴘɪɴ sʟᴏᴛ ᴍᴀᴄʜɪɴᴇ **"""
