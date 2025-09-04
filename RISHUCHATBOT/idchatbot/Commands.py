@@ -1,4 +1,3 @@
-
 import asyncio
 import requests
 from pyrogram import filters
@@ -26,7 +25,7 @@ chatbot_api = ChatGptEs()
 
 
 # ✅ Commands ko ignore karega, sirf normal text par chalega
-@app.on_message(filters.text & ~filters.bot & ~filters.command)
+@app.on_message(filters.text & (~filters.bot) & (~filters.command))
 async def chatbot_handler(_, m: Message):
     try:
         # Typing action
