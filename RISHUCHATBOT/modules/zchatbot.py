@@ -1,5 +1,7 @@
 import asyncio
 from pyrogram import filters, enums
+from RISHUCHATBOT import RISHUCHATBOT as app
+
 
 @app.on_message(filters.command("gen"))
 async def generate_image(client, message):
