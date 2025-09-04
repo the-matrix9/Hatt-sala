@@ -1,89 +1,98 @@
-import random
-import os
-import sys
-from MukeshAPI import api
-from pymongo import MongoClient
-from pyrogram import Client, filters
-from pyrogram.errors import MessageEmpty
-from pyrogram.enums import ChatAction, ChatMemberStatus as CMS
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
-from deep_translator import GoogleTranslator
-from RISHUCHATBOT.database.chats import add_served_chat
-from RISHUCHATBOT.database.users import add_served_user
-from config import MONGO_URL
-from RISHUCHATBOT import RISHUCHATBOT, mongo, LOGGER, db
-from RISHUCHATBOT.mplugin.helpers import chatai, storeai, languages, CHATBOT_ON
-from RISHUCHATBOT.mplugin.helpers import (
-    ABOUT_BTN,
-    ABOUT_READ,
-    ADMIN_READ,
-    BACK,
-    CHATBOT_BACK,
-    CHATBOT_READ,
-    DEV_OP,
-    HELP_BTN,
-    HELP_READ,
-    MUSIC_BACK_BTN,
-    SOURCE_READ,
-    START,
-    TOOLS_DATA_READ,
+from pyrogram import filters
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ChatMemberUpdated
+from pyrogram.enums import ChatAction, ChatMemberStatus
+from RISHUCHATBOT import app
+from RISHUCHATBOT.database import (
+    is_chatbot_enabled,
+    enable_chatbot,
+    disable_chatbot,
+    chatbot_api,
+    is_admins
 )
-import asyncio
 
-translator = GoogleTranslator()
+# GROUP CHAT FILTER
+async def text_filter(_, __, m: Message):
+    return (
+        bool(m.text)
+        and len(m.text) <= 69
+        and not m.text.startswith(("!", "/"))
+        and (not m.reply_to_message or m.reply_to_message.from_user.id == m._client.me.id)
+        and not (m.mentioned and (m.text.startswith("!") or m.text.startswith("/")))
+    )
 
-lang_db = db.ChatLangDb.LangCollection
-status_db = db.chatbot_status_db.status
+chatbot_filter = filters.create(text_filter)
 
-
-def generate_language_buttons(languages):
-    buttons = []
-    current_row = []
-    for lang, code in languages.items():
-        current_row.append(InlineKeyboardButton(lang.capitalize(), callback_data=f'setlang_{code}'))
-        if len(current_row) == 4:
-            buttons.append(current_row)
-            current_row = []
-    if current_row:
-        buttons.append(current_row)
-    return InlineKeyboardMarkup(buttons)
-
-async def get_chat_language(chat_id, bot_id):
-    chat_lang = await lang_db.find_one({"chat_id": chat_id, "bot_id": bot_id})
-    return chat_lang["language"] if chat_lang and "language" in chat_lang else None
-
-@Client.on_message(filters.command("status"))
-async def status_command(client: Client, message: Message):
+# GROUP CHATBOT HANDLER
+@app.on_message(
+    (
+        filters.text & filters.group & chatbot_filter
+        & ~filters.regex(r"^[/!]")
+    )
+    & ~filters.bot
+    & ~filters.sticker
+)
+async def chatbot(_, message: Message):
     chat_id = message.chat.id
-    bot_id = client.me.id
-    chat_status = await status_db.find_one({"chat_id": chat_id, "bot_id": bot_id})
-    if chat_status:
-        current_status = chat_status.get("status", "not found")
-        await message.reply(f"Chatbot status for this chat: **{current_status}**")
-    else:
-        await message.reply("No status found for this chat.")
 
-@Client.on_message(filters.command(["lang", "language", "setlang"]))
-async def set_language(client: Client, message: Message):
-    await message.reply_text(
-        "Please select your chat language:",
-        reply_markup=generate_language_buttons(languages)
-    )
+    if not await is_chatbot_enabled(chat_id):
+        return
 
-@Client.on_message(filters.command(["resetlang", "nolang"]))
-async def reset_language(client: Client, message: Message):
+    await app.send_chat_action(chat_id, ChatAction.TYPING)
+    reply = chatbot_api.ask_question(message.text)
+    await message.reply_text(reply or "❖ ᴄʜᴀᴛʙᴏᴛ ᴇʀʀᴏʀ. ᴄᴏɴᴛᴀᴄᴛ @l_HEART_BEAT_l.")
+
+# PRIVATE CHATBOT HANDLER
+@app.on_message(filters.private & filters.text & ~filters.bot & ~filters.regex(r"^[/!]"))
+async def chatbot_pm(_, message: Message):
+    await app.send_chat_action(message.chat.id, ChatAction.TYPING)
+    reply = chatbot_api.ask_question(message.text)
+    await message.reply_text(reply or "❖ ᴄʜᴀᴛʙᴏᴛ ᴇʀʀᴏʀ. ᴄᴏɴᴛᴀᴄᴛ @l_HEART_BEAT_l.")
+
+# /chatbot COMMAND WITH BUTTONS
+@app.on_message(filters.command("chatbot") & filters.group & ~filters.bot)
+@is_admins
+async def chatbot_toggle(_, message: Message):
     chat_id = message.chat.id
-    bot_id = client.me.id
-    lang_db.update_one(
-        {"chat_id": chat_id, "bot_id": bot_id},
-        {"$set": {"language": "nolang"}},
-        upsert=True
-    )
-    await message.reply_text("**Bot language has been reset in this chat to mix language.**")
+    chat_title = message.chat.title
 
-@Client.on_message(filters.command("chatbot"))
-async def chatbot_command(client: Client, message: Message):
-    await message.reply_text(
-        f"Chat: {message.chat.title}\n**Choose an option to enable/disable the chatbot.**",
-        reply_markup=InlineKeyboardMarkup(CHATBOT_ON),
+    status = await is_chatbot_enabled(chat_id)
+    status_text = "ᴇɴᴀʙʟᴇᴅ" if status else "ᴅɪꜱᴀʙʟᴇᴅ"
+
+    keyboard = InlineKeyboardMarkup(
+        [[
+            InlineKeyboardButton("ᴇɴᴀʙʟᴇ", callback_data="chatbot_enable"),
+            InlineKeyboardButton("ᴅɪꜱᴀʙʟᴇ", callback_data="chatbot_disable")
+        ]]
     )
+
+    await message.reply_text(
+        f"❖ ᴄᴜʀʀᴇɴᴛʟʏ ᴄʜᴀᴛʙᴏᴛ ɪꜱ **{status_text}** ɪɴ **{chat_title}**.",
+        reply_markup=keyboard
+    )
+
+# CALLBACK BUTTON HANDLER
+@app.on_callback_query(filters.regex("chatbot_"))
+@is_admins
+async def chatbot_button_toggle(_, query):
+    chat_id = query.message.chat.id
+    user = query.from_user
+
+    if query.data == "chatbot_enable":
+        if await is_chatbot_enabled(chat_id):
+            await query.answer("ᴄʜᴀᴛʙᴏᴛ ɪꜱ ᴀʟʀᴇᴀᴅʏ ᴇɴᴀʙʟᴇᴅ.", show_alert=True)
+            return
+        await enable_chatbot(chat_id)
+        await query.message.edit_text(
+            f"❖ ᴄʜᴀᴛʙᴏᴛ ʜᴀꜱ ʙᴇᴇɴ **ᴇɴᴀʙʟᴇᴅ** ʙʏ {user.mention}."
+        )
+        await query.answer("ᴄʜᴀᴛʙᴏᴛ ᴇɴᴀʙʟᴇᴅ !!")
+
+    elif query.data == "chatbot_disable":
+        if not await is_chatbot_enabled(chat_id):
+            await query.answer("ᴄʜᴀᴛʙᴏᴛ ɪꜱ ᴀʟʀᴇᴀᴅʏ ᴅɪꜱᴀʙʟᴇᴅ.", show_alert=True)
+            return
+        await disable_chatbot(chat_id)
+        await query.message.edit_text(
+            f"❖ ᴄʜᴀᴛʙᴏᴛ ʜᴀꜱ ʙᴇᴇɴ **ᴅɪꜱᴀʙʟᴇᴅ** ʙʏ {user.mention}."
+        )
+        await query.answer("ᴄʜᴀᴛʙᴏᴛ ᴅɪꜱᴀʙʟᴇᴅ !!")
