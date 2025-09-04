@@ -113,11 +113,14 @@ ABOUT_READ = f"""
 
 
 
-RGAM = f"""** ᴘʟᴀʏ ɢᴀᴍᴇ 
+RGAM = f"""
+**⌯ ᴘʟᴧʏ ɢᴧϻє ⌯**
 
-/dice - ᴅɪᴄᴇ 
-/dart - ᴅᴀʀᴛ 
-/basket - ʙᴀsᴋᴇᴛ ʙᴀʟʟ 
-/ball - ʙᴏᴡʟɪɴɢ ʙᴀʟʟ 
-/football - ғᴏᴏᴛʙᴀʟʟ 
-/jackpot - sᴘɪɴ sʟᴏᴛ ᴍᴀᴄʜɪɴᴇ **"""
+
+❖ /dice ─ ᴅɪᴄє  
+❖ /dart ─ ᴅᴧʀᴛ  
+❖ /basket ─ ʙᴧsᴋєᴛ ʙᴧʟʟ  
+❖ /ball ─ ʙσᴡʟɪηɢ ʙᴧʟʟ  
+❖ /football ─ ғσσᴛʙᴧʟʟ  
+❖ /jackpot ─ sᴘɪη sʟσᴛ ϻᴧᴄʜɪηє
+"""
