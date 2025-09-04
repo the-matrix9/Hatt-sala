@@ -16,10 +16,7 @@ class ChatGptEs:
             response = requests.get(url)
             response.raise_for_status()
             data = response.json()
-
-            # ✅ JSON me reply key se fetch
             return str(data.get("reply", "❖ Error: API ne reply nahi diya.")).strip()
-
         except Exception as e:
             return f"❖ I got an error: {str(e)}"
 
@@ -27,8 +24,8 @@ class ChatGptEs:
 chatbot_api = ChatGptEs()
 
 
-# Handler for text messages
-@app.on_message(filters.text & ~filters.bot)
+# ✅ Commands ko ignore karega, sirf normal text par chalega
+@app.on_message(filters.text & ~filters.bot & ~filters.command)
 async def chatbot_handler(_, m: Message):
     try:
         # Typing action
