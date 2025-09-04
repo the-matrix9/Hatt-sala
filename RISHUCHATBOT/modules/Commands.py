@@ -1,7 +1,7 @@
 from pyrogram import filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ChatMemberUpdated
 from pyrogram.enums import ChatAction, ChatMemberStatus
-from RISHUCHATBOT import app
+from RISHUCHATBOT import RISHUCHATBOT as app
 from RISHUCHATBOT.database import (
     is_chatbot_enabled,
     enable_chatbot,
