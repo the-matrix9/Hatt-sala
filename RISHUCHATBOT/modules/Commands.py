@@ -2,7 +2,8 @@ import asyncio
 import requests
 from pyrogram import filters
 from pyrogram.types import Message
-from RISHUCHATBOT import RISHUCHATBOT as app   # main bot import
+from pyrogram.enums import ChatAction
+from RISHUCHATBOT import RISHUCHATBOT as app
 
 
 # ChatGPT Text API class
@@ -15,7 +16,10 @@ class ChatGptEs:
             response = requests.get(url)
             response.raise_for_status()
             data = response.json()
-            return data.get("reply", "❖ Error: Text API ne reply nahi diya.").strip()
+
+            # ✅ JSON me reply key se fetch
+            return str(data.get("reply", "❖ Error: API ne reply nahi diya.")).strip()
+
         except Exception as e:
             return f"❖ I got an error: {str(e)}"
 
@@ -27,8 +31,8 @@ chatbot_api = ChatGptEs()
 @app.on_message(filters.text & ~filters.bot)
 async def chatbot_handler(_, m: Message):
     try:
-        # Typing action show karo
-        await m._client.send_chat_action(m.chat.id, "typing")
+        # Typing action
+        await m._client.send_chat_action(m.chat.id, ChatAction.TYPING)
         await asyncio.sleep(1.5)
 
         reply = chatbot_api.ask_question(m.text)
