@@ -5,9 +5,7 @@ from RISHUCHATBOT import RISHUCHATBOT as app
 from RISHUCHATBOT.database import (
     is_chatbot_enabled,
     enable_chatbot,
-    disable_chatbot,
-    chatbot_api,
-    is_admins
+    disable_chatbot
 )
 
 # GROUP CHAT FILTER
