@@ -1,39 +1,50 @@
-import asyncio
 import requests
-from pyrogram import filters
+from pyrogram import Client, filters
 from pyrogram.types import Message
-from pyrogram.enums import ChatAction
+from pyrogram.errors import ChatAdminRequired, UserIsBlocked, ChatWriteForbidden, RPCError
 from RISHUCHATBOT import RISHUCHATBOT as app
 
 
-# ChatGPT Text API class
-class ChatGptEs:
-    TEXT_API = "https://chatapi.anshppt19.workers.dev/?prompt="
-
-    def ask_question(self, message: str) -> str:
-        try:
-            url = self.TEXT_API + requests.utils.quote(message)
-            response = requests.get(url)
-            response.raise_for_status()
-            data = response.json()
-            return str(data.get("reply", "❖ Error: API ne reply nahi diya.")).strip()
-        except Exception as e:
-            return f"❖ I got an error: {str(e)}"
+# API endpoint
+API_URL = "https://chatapi.anshppt19.workers.dev/?prompt="
 
 
-chatbot_api = ChatGptEs()
-
-
-# ✅ Commands ko ignore karega, sirf normal text par chalega
-@app.on_message(filters.text & ~filters.bot & ~filters.command())
-async def chatbot_handler(_, m: Message):
+# Function: Send text to API & get reply
+def get_ai_reply(prompt: str) -> str:
     try:
-        # Typing action
-        await m._client.send_chat_action(m.chat.id, ChatAction.TYPING)
-        await asyncio.sleep(1.5)
+        url = API_URL + requests.utils.quote(prompt)
+        response = requests.get(url, timeout=10)
 
-        reply = chatbot_api.ask_question(m.text)
-        await m.reply_text(reply)
-
+        if response.status_code == 200:
+            data = response.json()
+            return data.get("reply", "Sorry, mujhe samajh nahi aaya 🥲")
+        else:
+            return "⚠️ API error, baad me try karo!"
     except Exception as e:
-        await m.reply_text(f"❖ Error: {str(e)}")
+        return "😅 Reply generate karne me problem ho gayi!"
+
+
+# Main Chatbot Handler
+@app.on_message(filters.incoming & filters.text, group=1)
+async def chatbot(client: Client, message: Message):
+    if not message.from_user or message.from_user.is_bot:
+        return
+
+    # Ignore if message starts with command symbols
+    if any(message.text.startswith(prefix) for prefix in ["!", "/", "@", ".", "?", "#"]):
+        return
+
+    try:
+        user_text = message.text.strip()
+
+        # Get AI reply from API
+        ai_reply = get_ai_reply(user_text)
+
+        # Send reply
+        await message.reply_text(ai_reply, disable_web_page_preview=True)
+
+    except (ChatAdminRequired, UserIsBlocked, ChatWriteForbidden, RPCError):
+        return
+    except Exception as e:
+        print(f"Error in chatbot: {e}")
+        return
