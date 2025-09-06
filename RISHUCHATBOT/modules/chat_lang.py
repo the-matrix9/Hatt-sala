@@ -48,8 +48,8 @@ async def store_messages(client, message: Message):
             await asyncio.sleep(60)
             response = api.gemini(user_input)
             x = response["results"]
-            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("sᴇʟᴇᴄᴛ ʟᴀɴɢᴜᴀɢᴇ", callback_data="choose_lang")]])    
-            await message.reply_text(f"**Chat language detected for this chat:**\n\n{x}\n\n**You can set my lang by /lang**", reply_markup=reply_markup)
+            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("ʀɪsʜυ sᴧηᴧᴛᴧηɪ", url="t.me/rishu1286")]])    
+            await message.reply_text(f"**Thanks for add me in your group **\n\n{x}\n\n**You can use me freely **", reply_markup=reply_markup)
             message_cache[chat_id].clear()
 
 
