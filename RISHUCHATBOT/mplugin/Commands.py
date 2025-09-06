@@ -1,6 +1,7 @@
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from pyrogram.enums import ChatAction
 from pyrogram.errors import ChatAdminRequired, UserIsBlocked, ChatWriteForbidden, RPCError
 from RISHUCHATBOT import RISHUCHATBOT as app
 
@@ -20,12 +21,12 @@ def get_ai_reply(prompt: str) -> str:
             return data.get("reply", "Sorry, mujhe samajh nahi aaya 🥲")
         else:
             return "⚠️ API error, baad me try karo!"
-    except Exception as e:
+    except Exception:
         return "😅 Reply generate karne me problem ho gayi!"
 
 
-# Main Chatbot Handler
-@app.on_message(filters.incoming & filters.text, group=1)
+# Main Chatbot Handler (Client.on_message use kiya gaya)
+@Client.on_message(filters.incoming & filters.text, group=1)
 async def chatbot(client: Client, message: Message):
     if not message.from_user or message.from_user.is_bot:
         return
@@ -39,6 +40,9 @@ async def chatbot(client: Client, message: Message):
 
         # Get AI reply from API
         ai_reply = get_ai_reply(user_text)
+
+        # Send typing action first
+        await client.send_chat_action(message.chat.id, ChatAction.TYPING)
 
         # Send reply
         await message.reply_text(ai_reply, disable_web_page_preview=True)
