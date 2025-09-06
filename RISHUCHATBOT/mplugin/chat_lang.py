@@ -56,5 +56,5 @@ async def store_messages(client, message: Message):
             await asyncio.sleep(60)
             response = api.gemini(user_input)
             x = response["results"]
-            await message.reply_text(f"**Chat language detected for this chat:**\n\n{x}\n\n**You can set my language using /lang**")
+            await message.reply_text(f"**Chat language detected for this chat:**\n\n{x}\n\n**You can set my language using **")
             message_cache[chat_id].clear()
