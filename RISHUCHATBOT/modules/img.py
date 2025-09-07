@@ -9,7 +9,7 @@ from RISHUCHATBOT import RISHUCHATBOT as app
 @app.on_message(filters.command(["img", "gen", "image"]))
 async def image_gen_handler(client, message):
     if (
-        message.text.startswith(f"/img@{app.username}")
+        message.text.startswith(f"/img@DikshaChatBot")
         and len(message.text.split(" ", 1)) > 1
     ):
         user_input = message.text.split(" ", 1)[1]
@@ -36,7 +36,7 @@ async def image_gen_handler(client, message):
         api_url = f"https://direct-img.rishuapi.workers.dev/?prompt={user_input}"
 
         # Send generated image
-        await message.reply_photo(api_url, caption=f"🎨 ɢᴇɴᴇʀᴀᴛᴇᴅ ғᴏʀ: `{user_input}`")
+        await message.reply_photo(api_url, caption=f"🎨 ɢᴇɴᴇʀᴀᴛᴇᴅ ғᴏʀ: `{user_input}`\n🍭 ɢᴇɴᴇʀᴀᴛᴇᴅ  @DikshaChatBot ")
 
     except Exception as e:
         await message.reply_text("⚠️ ᴇʀʀᴏʀ ɪɴ ɪᴍᴀɢᴇ ɢᴇɴᴇʀᴀᴛɪᴏɴ!")
