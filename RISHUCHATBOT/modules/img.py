@@ -5,8 +5,8 @@ from pyrogram.enums import ChatAction
 from RISHUCHATBOT import RISHUCHATBOT as app
 
 
-# Command: /img dog
-@app.on_message(filters.command(["img", "gen", "image"]))
+# Command: /img sun set view
+@app.on_message(filters.command(["img", "gen", "image", "make"]))
 async def image_gen_handler(client, message):
     if (
         message.text.startswith(f"/img@DikshaChatBot")
@@ -18,11 +18,11 @@ async def image_gen_handler(client, message):
     elif len(message.command) > 1:
         user_input = " ".join(message.command[1:])
     else:
-        await message.reply_text("ᴇxᴀᴍᴘʟᴇ :- `/img dog`")
+        await message.reply_text("ᴇxᴀᴍᴘʟᴇ :- `/gen sun set view`")
         return
 
     try:
-        # Show typing, recording, upload effects
+        # Show effects
         await client.send_chat_action(message.chat.id, ChatAction.TYPING)
         await asyncio.sleep(1.5)
 
@@ -32,11 +32,12 @@ async def image_gen_handler(client, message):
         await client.send_chat_action(message.chat.id, ChatAction.UPLOAD_PHOTO)
         await asyncio.sleep(1.5)
 
-        # API call
-        api_url = f"https://direct-img.rishuapi.workers.dev/?prompt={user_input}"
+        # Encode prompt to handle spaces
+        encoded_prompt = requests.utils.quote(user_input)
+        api_url = f"https://direct-img.rishuapi.workers.dev/?prompt={encoded_prompt}"
 
-        # Send generated image
-        await message.reply_photo(api_url, caption=f"🎨 ɢᴇɴᴇʀᴀᴛᴇᴅ ғᴏʀ: `{user_input}`\n🍭 ɢᴇɴᴇʀᴀᴛᴇᴅ  @DikshaChatBot ")
+        # Send image
+        await message.reply_photo(api_url, caption=f"🎨 ɢᴇɴᴇʀᴀᴛᴇᴅ ғᴏʀ: `{user_input}`\n🍭 ɢᴇɴᴇʀᴀᴛᴇᴅ  @DikshaChatBot")
 
     except Exception as e:
         await message.reply_text("⚠️ ᴇʀʀᴏʀ ɪɴ ɪᴍᴀɢᴇ ɢᴇɴᴇʀᴀᴛɪᴏɴ!")
