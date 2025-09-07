@@ -3,6 +3,7 @@ import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors import ChatAdminRequired, UserIsBlocked, ChatWriteForbidden, RPCError
+from pyrogram.enums import ChatAction   # ✅ Added import
 from RISHUCHATBOT import RISHUCHATBOT as app
 
 
@@ -39,7 +40,7 @@ async def chatbot(client: Client, message: Message):
         user_text = message.text.strip()
 
         # Show typing action
-        await client.send_chat_action(message.chat.id, "typing")
+        await client.send_chat_action(message.chat.id, ChatAction.TYPING)  # ✅ Fixed
 
         # Simulate typing delay
         await asyncio.sleep(1.5)
