@@ -36,8 +36,12 @@ async def image_gen_handler(client, message):
         encoded_prompt = requests.utils.quote(user_input)
         api_url = f"https://direct-img.rishuapi.workers.dev/?prompt={encoded_prompt}"
 
-        # Send image
-        await message.reply_photo(api_url, caption=f"🎨 ɢᴇɴᴇʀᴀᴛᴇᴅ ғᴏʀ: `{user_input}`\n🍭 ɢᴇɴᴇʀᴀᴛᴇᴅ  @DikshaChatBot")
+        # Send image as spoiler
+        await message.reply_photo(
+            api_url,
+            caption=f"🎨 ɢᴇɴᴇʀᴀᴛᴇᴅ ғᴏʀ: `{user_input}`\n🍭 ɢᴇɴᴇʀᴀᴛᴇᴅ  @DikshaChatBot",
+            has_spoiler=True
+        )
 
     except Exception as e:
         await message.reply_text("⚠️ ᴇʀʀᴏʀ ɪɴ ɪᴍᴀɢᴇ ɢᴇɴᴇʀᴀᴛɪᴏɴ!")
