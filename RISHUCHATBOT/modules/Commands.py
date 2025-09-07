@@ -1,4 +1,5 @@
 import requests
+import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors import ChatAdminRequired, UserIsBlocked, ChatWriteForbidden, RPCError
@@ -20,7 +21,7 @@ def get_ai_reply(prompt: str) -> str:
             return data.get("reply", "Sorry, mujhe samajh nahi aaya 🥲")
         else:
             return "⚠️ API error, baad me try karo!"
-    except Exception as e:
+    except Exception:
         return "😅 Reply generate karne me problem ho gayi!"
 
 
@@ -36,6 +37,12 @@ async def chatbot(client: Client, message: Message):
 
     try:
         user_text = message.text.strip()
+
+        # Show typing action
+        await client.send_chat_action(message.chat.id, "typing")
+
+        # Simulate typing delay
+        await asyncio.sleep(1.5)
 
         # Get AI reply from API
         ai_reply = get_ai_reply(user_text)
