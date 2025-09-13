@@ -7,7 +7,7 @@ from RISHUCHATBOT import RISHUCHATBOT as app
 
 
 # API endpoint
-API_URL = "https://chatapi.anshppt19.workers.dev/?prompt="
+API_URL = "https://rellllll.anshppt19.workers.dev/?prompt="
 
 
 # Function: Send text to API & get reply
