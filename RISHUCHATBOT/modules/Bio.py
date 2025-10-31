@@ -16,9 +16,9 @@ from typing import Optional
 
 from pyrogram import Client, filters, errors
 from pyrogram.types import ChatPermissions
-from SONALI import app
+from RISHUCHATBOT import RISHUCHATBOT as app
 
-from SONALI.plugins.tools.babu import (
+from RISHUCHATBOT.modules.Babu import (
     is_admin,
     get_config, update_config,
     increment_warning, reset_warnings,
