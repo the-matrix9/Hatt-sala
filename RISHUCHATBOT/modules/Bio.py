@@ -87,7 +87,7 @@ async def start_handler(client: Client, message):
                     InlineKeyboardButton("🛠️ sᴜᴘᴘᴏʀᴛ", url="https://t.me/ll_KHAYALI_PULAO_ll"),
                     InlineKeyboardButton("👤 ᴏᴡɴᴇʀ", url=f"https://t.me/{BOT_OWNER_USERNAME}" if BOT_OWNER_USERNAME else f"tg://user?id={BOT_OWNER}")
                 ],
-                [InlineKeyboardButton("🗑️ ᴄʟᴏsᴇ", callback_data="close")]
+               
             ])
         )
     except Exception as e:
@@ -203,7 +203,7 @@ async def command_free(client: Client, message):
 
     text = f"<b>✅ {target.mention} ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ ᴛᴏ ᴛʜᴇ ᴡʜɪᴛᴇʟɪsᴛ</b>"
     keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton("🚫 ᴜɴᴡʜɪᴛᴇʟɪsᴛ", callback_data=f"unwhitelist_{target.id}"), InlineKeyboardButton("🗑️ ᴄʟᴏsᴇ", callback_data="close")]
+        [InlineKeyboardButton("Support", url=f"t.me/rishusupport"), InlineKeyboardButton("Update", url=f"t.me/ur_rishu_143")]
     ])
     await client.send_message(chat_id, text, reply_markup=keyboard)
 
@@ -228,7 +228,7 @@ async def command_unfree(client: Client, message):
     else:
         text = f"<b>ℹ️ {target.mention} ɪs ɴᴏᴛ ᴡʜɪᴛᴇʟɪsᴛᴇᴅ.</b>"
 
-    keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("✅ ᴡʜɪᴛᴇʟɪsᴛ", callback_data=f"whitelist_{target.id}"), InlineKeyboardButton("🗑️ ᴄʟᴏsᴇ", callback_data="close")]])
+    keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("✅ Support", url=f"t.me/ur_rishu_143"), InlineKeyboardButton("Update", url=f"t.me/rishusupport")]])
     await client.send_message(chat_id, text, reply_markup=keyboard)
 
 @app.on_message(filters.group & filters.command("freelist"))
@@ -292,7 +292,7 @@ async def cmd_cancel_warn(client: Client, message):
     if not await is_admin(client, chat_id, user_id):
         return
     if len(message.command) < 2:
-        return await message.reply_text("Usage: /cancel_warn <user_id>")
+        return await message.reply_text("Usage: /cancel_warn user_id ")
     try:
         target_id = int(message.command[1])
     except ValueError:
@@ -328,7 +328,7 @@ async def cmd_unban(client: Client, message):
     if not await is_admin(client, chat_id, user_id):
         return
     if len(message.command) < 2:
-        return await message.reply_text("Usage: /unban <user_id>")
+        return await message.reply_text("Usage: /unban user_id")
     try:
         target_id = int(message.command[1])
     except ValueError:
