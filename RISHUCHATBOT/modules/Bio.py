@@ -7,7 +7,7 @@ from pyrogram import Client, filters, errors
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ChatPermissions
 from RISHUCHATBOT import RISHUCHATBOT as app
 
-from RISHUCHATBOT.modules.babu import (
+from RISHUCHATBOT.modules.Babu import (
     is_admin,
     get_config, update_config,
     increment_warning, reset_warnings,
