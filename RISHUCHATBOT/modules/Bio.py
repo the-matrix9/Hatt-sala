@@ -1,4 +1,3 @@
-
 import json
 import os
 import re
@@ -80,7 +79,7 @@ async def start_handler(client: Client, message):
                 "   • ᴄᴜsᴛᴏᴍɪᴢᴀʙʟᴇ ᴡᴀʀɴ ʟɪᴍɪᴛ\n"
                 "   • ᴀᴜᴛᴏ-ᴍᴜᴛᴇ ᴏʀ ʙᴀɴ ᴡʜᴇɴ ʟɪᴍɪᴛ ɪs ʀᴇᴀᴄʜᴇᴅ\n"
                 "   • ᴡʜɪᴛᴇʟɪsᴛ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ғᴏʀ ᴛʀᴜsᴛᴇᴅ ᴜsᴇʀs\n\n"
-                "<b>ᴜsᴇ /bio ᴛᴏ ᴛᴏɢɢʟᴇ ʙɪᴏ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ (ᴅᴇꜰᴀᴜʟᴛ: OFF)</b>"
+                "<b>ᴜsᴇ /bio on  ᴏʀ  /bio off  ᴛᴏ ᴛᴏɢɢʟᴇ ʙɪᴏ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ (ᴅᴇꜰᴀᴜʟᴛ: OFF)</b>"
             ),
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("➕ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ", url=add_url)],
@@ -93,22 +92,25 @@ async def start_handler(client: Client, message):
         )
     except Exception as e:
         print(f"Error sending image: {e}")
-        await client.send_message(chat_id, "Welcome to Bio Protector Bot! Use /bio to manage protection.")
+        await client.send_message(chat_id, "Welcome to Bio Protector Bot! Use /bio on or /bio off to manage protection.")
 
 @app.on_message(filters.command("bhelp"))
 async def help_handler(client: Client, message):
     chat_id = message.chat.id
     help_text = (
         "<b>🛠️ ʙᴏᴛ ᴄᴏᴍᴍᴀɴᴅs & ᴜsᴀɢᴇ</b>\n\n"
-        "`/config` – sᴇᴛ ᴡᴀʀɴ-ʟɪᴍɪᴛ & ᴘᴜɴɪsʜᴍᴇɴᴛ ᴍᴏᴅᴇ\n"
+        "`/config` – sʜᴏᴡ ᴄᴜʀʀᴇɴᴛ sᴇᴛᴛɪɴɢs\n"
+        "`/setwarns <2|3|4>` – sᴇᴛ ɴᴜᴍʙᴇʀ ᴏғ ᴡᴀʀɴs\n"
+        "`/setpenalty <mute|ban>` – ᴘᴇɴᴀʟᴛʏ ᴛᴏ ᴀᴘᴘʟʏ ᴡʜᴇɴ ʟɪᴍɪᴛ ʀᴇᴀᴄʜᴇs\n"
+        "`/setmode <warn|mute|ban>` – ᴍᴏᴅᴇ: warn => ᴡᴀʀɴs ᴛʀᴀᴄᴋᴇᴅ; mute/ban => ɪᴍᴍᴇᴅɪᴀᴛᴇ ᴀᴄᴛɪᴏɴ\n"
         "`/free` – ᴡʜɪᴛᴇʟɪsᴛ ᴀ ᴜsᴇʀ (ʀᴇᴘʟʏ ᴏʀ ᴜsᴇʀ/ɪᴅ)\n"
         "`/unfree` – ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴡʜɪᴛᴇʟɪsᴛ\n"
         "`/freelist` – ʟɪsᴛ ᴀʟʟ ᴡʜɪᴛᴇʟɪsᴛᴇᴅ ᴜsᴇʀs\n\n"
-        "<b>ᴡʜᴇɴ sᴏᴍᴇᴏɴᴇ ʜᴀs ᴀ ᴜʀʟ ɪɴ ᴛʜᴇɪʀ ʙɪᴏ ᴏɴ ᴀɴᴅ ʙɪᴏ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ɪs ᴏɴ, ɪ'ʟʟ</b>\n"
+        "<b>ᴡʜᴇɴ sᴏᴍᴇᴏɴᴇ ʜᴀs ᴀ ᴜʀʟ ɪɴ ᴛʜᴇɪʀ ʙɪᴏ ᴀɴᴅ ʙɪᴏ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ɪs ᴏɴ, ɪ'ʟʟ</b>\n"
         " 1. ⚠️ ᴡᴀʀɴ ᴛʜᴇᴍ\n"
         " 2. 🔇 ᴍᴜᴛᴇ ɪғ ᴛʜᴇʏ ᴇxᴄᴇᴇᴅ ʟɪᴍɪᴛ\n"
         " 3. 🔨 ʙᴀɴ ɪғ sᴇᴛ ᴛᴏ ʙᴀɴ\n\n"
-        "<b>ᴜsᴇ /bio ᴛᴏ ᴛᴏɢɢʟᴇ ᴛʜᴇ ғᴇᴀᴛᴜʀᴇ (ᴀᴅᴍɪɴs ᴏɴʟʏ).</b>"
+        "<b>ᴜsᴇ /bio on  ᴏʀ  /bio off  ᴛᴏ ᴛᴏɢɢʟᴇ ᴛʜᴇ ғᴇᴀᴛᴜʀᴇ (ᴀᴅᴍɪɴs ᴏɴʟʏ).</b>"
     )
     kb = InlineKeyboardMarkup([[InlineKeyboardButton("🗑️ ᴄʟᴏsᴇ", callback_data="close")]])
     try:
@@ -118,7 +120,7 @@ async def help_handler(client: Client, message):
         await client.send_message(chat_id, help_text, reply_markup=kb)
 
 # ---------------------------
-# Config command (existing)
+# Config command (show settings only)
 # ---------------------------
 @app.on_message(filters.group & filters.command("config"))
 async def configure(client: Client, message):
@@ -128,25 +130,81 @@ async def configure(client: Client, message):
         return
 
     mode, limit, penalty = await get_config(chat_id)
-    keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton("ᴡᴀʀɴ", callback_data="warn")],
-        [
-            InlineKeyboardButton("ᴍᴜᴛᴇ ✅" if penalty == "mute" else "ᴍᴜᴛᴇ", callback_data="mute"),
-            InlineKeyboardButton("ʙᴀɴ ✅" if penalty == "ban" else "ʙᴀɴ", callback_data="ban")
-        ],
-        [InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="close")]
-    ])
+    text = (
+        "<b>⚙️ Current Bio Protection Settings:</b>\n\n"
+        f"• <b>Mode:</b> {mode}\n"
+        f"• <b>Warn limit:</b> {limit}\n"
+        f"• <b>Penalty when warn limit reached:</b> {penalty}\n\n"
+        "<b>Commands to change settings:</b>\n"
+        "/setwarns <2|3|4>\n"
+        "/setpenalty <mute|ban>\n"
+        "/setmode <warn|mute|ban>\n"
+    )
+    kb = InlineKeyboardMarkup([[InlineKeyboardButton("🗑️ ᴄʟᴏsᴇ", callback_data="close")]])
     try:
-        await client.send_photo(
-            chat_id=chat_id,
-            photo=CONFIG_IMG_URL,
-            caption="<b>ᴄʜᴏᴏsᴇ ᴘᴇɴᴀʟᴛʏ ғᴏʀ ᴜsᴇʀs ᴡɪᴛʜ ʟɪɴᴋs ɪɴ ʙɪᴏ:</b>",
-            reply_markup=keyboard
-        )
-    except Exception as e:
-        print(f"Error sending config image: {e}")
-        await client.send_message(chat_id, "<b>ᴄʜᴏᴏsᴇ ᴘᴇɴᴀʟᴛʏ ғᴏʀ ᴜsᴇʀs ᴡɪᴛʜ ʟɪɴᴋs ɪɴ ʙɪᴏ:</b>", reply_markup=keyboard)
-    await message.delete()
+        await client.send_message(chat_id, text, reply_markup=kb)
+    except Exception:
+        await client.send_message(chat_id, text)
+
+# ---------------------------
+# New command-based config setters
+# ---------------------------
+@app.on_message(filters.group & filters.command("setwarns"))
+async def set_warns(client: Client, message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+    if not await is_admin(client, chat_id, user_id):
+        return await message.reply_text("❌ Only admins can change warn settings.")
+
+    if len(message.command) < 2:
+        return await message.reply_text("Usage: /setwarns <2|3|4>")
+
+    try:
+        val = int(message.command[1])
+    except:
+        return await message.reply_text("Please provide a number: 2, 3, or 4.")
+
+    if val not in (2, 3, 4):
+        return await message.reply_text("Allowed warn counts: 2, 3, 4.")
+
+    await update_config(chat_id, limit=val)
+    await message.reply_text(f"✅ Warn limit set to {val}.")
+
+@app.on_message(filters.group & filters.command("setpenalty"))
+async def set_penalty(client: Client, message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+    if not await is_admin(client, chat_id, user_id):
+        return await message.reply_text("❌ Only admins can change penalty.")
+
+    if len(message.command) < 2:
+        return await message.reply_text("Usage: /setpenalty <mute|ban>")
+
+    arg = message.command[1].lower()
+    if arg not in ("mute", "ban"):
+        return await message.reply_text("Penalty must be 'mute' or 'ban'.")
+
+    # store as penalty (used when mode == 'warn')
+    await update_config(chat_id, penalty=arg)
+    await message.reply_text(f"✅ Penalty on warn-limit reached set to: {arg}.")
+
+@app.on_message(filters.group & filters.command("setmode"))
+async def set_mode(client: Client, message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+    if not await is_admin(client, chat_id, user_id):
+        return await message.reply_text("❌ Only admins can change mode.")
+
+    if len(message.command) < 2:
+        return await message.reply_text("Usage: /setmode <warn|mute|ban>")
+
+    arg = message.command[1].lower()
+    if arg not in ("warn", "mute", "ban"):
+        return await message.reply_text("Mode must be: warn, mute, or ban.")
+
+    # try setting mode (update_config implementation should accept mode kwarg)
+    await update_config(chat_id, mode=arg)
+    await message.reply_text(f"✅ Mode updated to: {arg}.")
 
 # ---------------------------
 # Whitelist / free / unfree / freelist
@@ -232,7 +290,7 @@ async def command_freelist(client: Client, message):
     await client.send_message(chat_id, text, reply_markup=keyboard)
 
 # ---------------------------
-# /bio command (toggle) - admin only
+# /bio command (toggle) - admin only (now command-based)
 # ---------------------------
 @app.on_message(filters.group & filters.command("bio"))
 async def toggle_bio_protection(client: Client, message):
@@ -242,18 +300,22 @@ async def toggle_bio_protection(client: Client, message):
     if not await is_admin(client, chat_id, user_id):
         return await message.reply_text("❌ Only admins can toggle bio protection.")
 
-    current = get_bio_state(chat_id)  # default False
-    text = f"<b>🧬 ʙɪᴏ ʟɪɴᴋ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ:</b> {'🟢 ON' if current else '🔴 OFF'}"
-    kb = InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("🟢 Turn ON" if not current else "🔴 Turn OFF", callback_data=f"togglebio_{'on' if not current else 'off'}"),
-        ],
-        [InlineKeyboardButton("🗑️ Close", callback_data="close")]
-    ])
-    await message.reply_text(text, reply_markup=kb)
+    # allow: /bio on  or /bio off  or just /bio to show status
+    if len(message.command) == 1:
+        current = get_bio_state(chat_id)
+        return await message.reply_text(f"<b>🧬 ʙɪᴏ ʟɪɴᴋ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ:</b> {'🟢 ON' if current else '🔴 OFF'}\nUse /bio on or /bio off to change.")
+    arg = message.command[1].lower()
+    if arg in ("on", "enable", "1", "true"):
+        set_bio_state(chat_id, True)
+        return await message.reply_text("<b>✅ Bio protection is now 🟢 ON</b>")
+    elif arg in ("off", "disable", "0", "false"):
+        set_bio_state(chat_id, False)
+        return await message.reply_text("<b>✅ Bio protection is now 🔴 OFF</b>")
+    else:
+        return await message.reply_text("Usage: /bio on  or  /bio off")
 
 # ---------------------------
-# Unified callback handler (handles existing callbacks + bio toggle)
+# Unified callback handler (keeps existing callback features but NO togglebio_ anymore)
 # ---------------------------
 @app.on_callback_query()
 async def callback_handler(client: Client, callback_query):
@@ -276,35 +338,11 @@ async def callback_handler(client: Client, callback_query):
             pass
         return await callback_query.answer()
 
-    # ----------------- bio toggle (new) -----------------
-    if data.startswith("togglebio_"):
-        if not await admin_check():
-            return
-        action = data.split("_", 1)[1]
-        if action == "on":
-            set_bio_state(chat_id, True)
-        else:
-            set_bio_state(chat_id, False)
-        status = get_bio_state(chat_id)
-        new_text = f"<b>🧬 ʙɪᴏ ʟɪɴᴋ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ɪs ɴᴏᴡ:</b> {'🟢 ON' if status else '🔴 OFF'}"
-        kb = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🟢 Turn ON" if not status else "🔴 Turn OFF", callback_data=f"togglebio_{'on' if not status else 'off'}")],
-            [InlineKeyboardButton("🗑️ Close", callback_data="close")]
-        ])
-        try:
-            await callback_query.message.edit_text(new_text, reply_markup=kb)
-        except:
-            try:
-                await callback_query.message.edit_caption(new_text, reply_markup=kb)
-            except:
-                pass
-        return await callback_query.answer("Toggled successfully ✅")
-
-    # ----------------- existing callback handling from original code -----------------
+    # other callbacks require admin
     if not await admin_check():
         return
 
-    # Back to config menu
+    # Back to config menu (this edits message to show the same menu used elsewhere)
     if data == "back":
         mode, limit, penalty = await get_config(chat_id)
         kb = InlineKeyboardMarkup([
@@ -325,13 +363,13 @@ async def callback_handler(client: Client, callback_query):
             await callback_query.message.edit_text("<b>ᴄʜᴏᴏsᴇ ᴘᴇɴᴀʟᴛʏ ғᴏʀ ᴜsᴇʀs ᴡɪᴛʜ ʟɪɴᴋs ɪɴ ʙɪᴏ:</b>", reply_markup=kb)
         return await callback_query.answer()
 
-    # Warn selection submenu
+    # Warn selection submenu (now 2,3,4)
     if data == "warn":
         _, selected_limit, _ = await get_config(chat_id)
         kb = InlineKeyboardMarkup([
-            [InlineKeyboardButton(f"3 ✅" if selected_limit==3 else "3", callback_data="warn_3"),
-             InlineKeyboardButton(f"4 ✅" if selected_limit==4 else "4", callback_data="warn_4"),
-             InlineKeyboardButton(f"5 ✅" if selected_limit==5 else "5", callback_data="warn_5")],
+            [InlineKeyboardButton(f"2 ✅" if selected_limit==2 else "2", callback_data="warn_2"),
+             InlineKeyboardButton(f"3 ✅" if selected_limit==3 else "3", callback_data="warn_3"),
+             InlineKeyboardButton(f"4 ✅" if selected_limit==4 else "4", callback_data="warn_4")],
             [InlineKeyboardButton("ʙᴀᴄᴋ", callback_data="back"), InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="close")]
         ])
         try:
@@ -343,7 +381,7 @@ async def callback_handler(client: Client, callback_query):
             await callback_query.message.edit_text("<b>sᴇʟᴇᴄᴛ ɴᴜᴍʙᴇʀ ᴏғ ᴡᴀʀɴs ʙᴇғᴏʀᴇ ᴘᴇɴᴀʟᴛʏ:</b>", reply_markup=kb)
         return await callback_query.answer()
 
-    # Mute / Ban selection
+    # Mute / Ban selection (these update penalty)
     if data in ["mute", "ban"]:
         await update_config(chat_id, penalty=data)
         mode, limit, penalty = await get_config(chat_id)
@@ -364,21 +402,21 @@ async def callback_handler(client: Client, callback_query):
             await callback_query.message.edit_text("<b>ᴘᴜɴɪsʜᴍᴇɴᴛ sᴇʟᴇᴄᴛᴇᴅ:</b>", reply_markup=kb)
         return await callback_query.answer()
 
-    # Warn count selection
+    # Warn count selection (now 2/3/4)
     if data.startswith("warn_"):
         count = int(data.split("_")[1])
         await update_config(chat_id, limit=count)
         kb = InlineKeyboardMarkup([
-            [InlineKeyboardButton(f"3 ✅" if count==3 else "3", callback_data="warn_3"),
-             InlineKeyboardButton(f"4 ✅" if count==4 else "4", callback_data="warn_4"),
-             InlineKeyboardButton(f"5 ✅" if count==5 else "5", callback_data="warn_5")],
+            [InlineKeyboardButton(f"2 ✅" if count==2 else "2", callback_data="warn_2"),
+             InlineKeyboardButton(f"3 ✅" if count==3 else "3", callback_data="warn_3"),
+             InlineKeyboardButton(f"4 ✅" if count==4 else "4", callback_data="warn_4")],
             [InlineKeyboardButton("ʙᴀᴄᴋ", callback_data="back"), InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="close")]
         ])
         try:
             if callback_query.message.photo:
                 await callback_query.message.edit_caption(caption=f"<b>ᴡᴀʀɴɪɴɢ ʟɪᴍɪᴛ sᴇᴛ ᴛᴏ {count} </b>", reply_markup=kb)
             else:
-                await callback_query.message.edit_text(f"<b>ᴡᴀʀɴɪɴɢ ʟɪᴍɪᴛ sᴇᴛ ᴛᴏ {count} </b>", reply_markup=kb)
+                await callback_query.message.edit_text(f"<b>ᴡᴀʀɴɪɴɢ ʟɪᴍɪt sᴇᴛ ᴛᴏ {count} </b>", reply_markup=kb)
         except:
             await callback_query.message.edit_text(f"<b>ᴡᴀʀɴɪɴɢ ʟɪᴍɪᴛ sᴇᴛ ᴛᴏ {count} </b>", reply_markup=kb)
         return await callback_query.answer()
@@ -484,7 +522,6 @@ async def check_bio(client: Client, message):
     bio = user.bio or ""
     full_name = f"{user.first_name}{(' ' + user.last_name) if user.last_name else ''}"
     mention = f"<a href='tg://user?id={user.id}'>{user.first_name}</a>"
-
 
     if URL_PATTERN.search(bio):
         # delete the triggering message (if possible)
